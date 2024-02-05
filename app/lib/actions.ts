@@ -69,20 +69,31 @@ export async function createInvoice(prevState: State, formData: FormData) {
   }
 }
 
-export const updateInvoice = async (id: string, formData: FormData) => {
+const UpdateInvoice = FormSchema.omit({ id: true, date: true });
+
+
+export const updateInvoice = async (id: string, previousState: State, formData: FormData) => {
+  const validatedFields = UpdateInvoice.safeParse({
+    customerId: formData.get('customerId'),
+    amount: formData.get('amount'),
+    status: formData.get('status'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Update Invoice.',
+    };
+  }
+
   try {
-    const { customerId, amount, status } = Object.fromEntries(
-      formData.entries(),
-    ) as Invoice;
+    const { customerId, amount, status } = validatedFields.data;
     const amountInCents = Number(amount) * 100;
     await sql`
     UPDATE invoices
     SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
     WHERE id = ${id}
   `;
-
-    revalidatePath('/dashboard/invoices');
-    redirect('/dashboard/invoices');
   } catch (error) {
     // Send to monitoring
     return {
