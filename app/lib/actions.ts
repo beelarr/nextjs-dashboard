@@ -55,6 +55,9 @@ export const updateInvoice = async (id: string, formData: FormData) => {
     return {
       message: 'Database Error: Failed to update Invoice',
     };
+  } finally {
+    revalidatePath('/dashboard/invoices');
+    redirect('/dashboard/invoices');
   }
 };
 
