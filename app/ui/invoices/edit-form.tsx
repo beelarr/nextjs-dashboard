@@ -25,7 +25,10 @@ export default function EditInvoiceForm({
 
   return (
     <form action={dispatch}>
-      <div className="rounded-md bg-gray-50 p-4 md:p-6" aria-describedby="form-error">
+      <div
+        className="rounded-md bg-gray-50 p-4 md:p-6"
+        aria-describedby="form-error"
+      >
         {/* Customer Name */}
         <div className="mb-4">
           <label htmlFor="customer" className="mb-2 block text-sm font-medium">

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { lusitana } from '@/app/ui/fonts';
 import {
@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { useFormState } from 'react-dom';
 import { authenticate } from '@/app/lib/actions';
-import LoginButton from '@/app/ui/login-button'
+import LoginButton from '@/app/ui/login-button';
 
 export default function LoginForm() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined);
@@ -79,4 +79,3 @@ export default function LoginForm() {
     </form>
   );
 }
-
